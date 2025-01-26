@@ -127,6 +127,22 @@
 	<p>priorAttemptCorrect: {priorAttemptCorrect}</p>
 </div> -->
 
+<!-- Legend -->
+<div class="fixed left-0 top-0 m-4 rounded p-2 text-white shadow-lg">
+	<div class="mb-2 flex items-center">
+		<div class="mr-2 h-4 w-4 rounded-full bg-sky-500"></div>
+		<span>Correct</span>
+	</div>
+	<div class="mb-2 flex items-center">
+		<div class="mr-2 h-4 w-4 rounded-full bg-lime-300"></div>
+		<span>Wrong position</span>
+	</div>
+	<div class="flex items-center">
+		<div class="mr-2 h-4 w-4 rounded-full bg-red-400"></div>
+		<span>Not in code</span>
+	</div>
+</div>
+
 <div class="flex min-h-screen flex-col items-center justify-center space-y-4 p-4">
 	<!-- Prior Attempt Display -->
 	<div class="flex space-x-2">
