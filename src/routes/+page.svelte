@@ -22,9 +22,8 @@
 	function handleInput(index: number, value: string) {
 		if (gameOver) return;
 
-		// need to check if number here
 		if (value) {
-			currentAttempt[index] = value.slice(-1);
+			currentAttempt[index] = value;
 		}
 		if (value && index < 3) {
 			const nextInput = document.getElementById(`input-${index + 1}`);
@@ -60,9 +59,13 @@
 
 	function generateRandomFourDigitString() {
 		let result = '';
-		for (let i = 0; i < 4; i++) {
+		const usedDigits = new Set();
+		while (result.length < 4) {
 			const randomDigit = Math.floor(Math.random() * 10); // Generates a random number between 0 and 9
-			result += randomDigit.toString();
+			if (!usedDigits.has(randomDigit)) {
+				usedDigits.add(randomDigit);
+				result += randomDigit.toString();
+			}
 		}
 		return result;
 	}
@@ -182,7 +185,7 @@
 
 	<!-- Number Pad -->
 	<div class="grid grid-cols-4 gap-2">
-		{#each [undefined, 1, 2, 3] as number}
+		{#each [undefined, 7, 8, 9] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
 				class="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xl font-bold"
@@ -199,7 +202,7 @@
 				{number}
 			</button>
 		{/each}
-		{#each [0, 7, 8, 9] as number}
+		{#each [0, 1, 2, 3] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
 				class="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xl font-bold"
