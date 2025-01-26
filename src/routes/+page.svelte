@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	const maxAttempts = 9;
 	const statusToColor: Record<string, string> = {
 		Y: 'sky-500',
@@ -18,6 +20,28 @@
 	let priorAttemptColors = $derived(
 		priorAttemptCorrect.map((status) => statusToColor[status] || 'gray')
 	);
+
+	$effect(() => {
+		if (currentAttempt.every((val) => val !== '')) {
+			const submitButton = document.getElementById('submit-button');
+			submitButton?.focus();
+		}
+	});
+
+	$effect(() => {
+		console.log('reee');
+		if (gameOver) {
+			const restartButton = document.getElementById('restart-button');
+			restartButton?.focus();
+		}
+	});
+
+	onMount(() => {
+		const firstInput = document.getElementById('input-0');
+		if (firstInput) {
+			firstInput.focus();
+		}
+	});
 
 	function handleInput(index: number, value: string) {
 		if (gameOver) return;
@@ -116,6 +140,10 @@
 		currentAttempt = ['', '', '', ''];
 		attempts = 0;
 		secretNumber = generateRandomFourDigitString();
+		const firstInput = document.getElementById('input-0');
+		if (firstInput) {
+			firstInput.focus();
+		}
 	}
 </script>
 
@@ -131,7 +159,7 @@
 </div> -->
 
 <!-- Legend -->
-<div class="fixed left-0 top-0 m-4 rounded-md bg-slate-800 p-2 text-slate-50 shadow-lg">
+<div class="fixed top-0 left-0 m-4 rounded-md bg-slate-800 p-2 text-slate-50 shadow-lg">
 	<div class="mb-2 flex items-center">
 		<div class="mr-2 h-4 w-4 rounded-full bg-sky-500"></div>
 		<span>Correct</span>
@@ -151,7 +179,7 @@
 	<div class="flex space-x-2">
 		{#each priorAttempt as digit, i}
 			<div
-				class="flex h-16 w-16 items-center justify-center rounded-md border-2 border-slate-400 bg-slate-800 text-xl font-bold text-{priorAttemptColors[
+				class="flex h-16 w-16 items-center justify-center rounded-md border-2 border-slate-400 bg-gray-800 text-xl font-bold text-{priorAttemptColors[
 					i
 				]}"
 			>
@@ -171,7 +199,7 @@
 				pattern="[0-9]*"
 				maxlength="1"
 				value={digit}
-				class="focus:bg-600-200 h-16 w-16 rounded-md border-2 border-slate-400 bg-slate-800 text-center text-xl font-bold text-slate-50"
+				class="border-slate-20000 h-16 w-16 rounded-md border-2 bg-slate-800 text-center text-xl font-bold text-slate-50 focus:ring-3 focus:ring-slate-50"
 			/>
 		{/each}
 	</div>
@@ -179,7 +207,7 @@
 	<!-- Attempts Bar -->
 	<div class="flex space-x-1">
 		{#each Array(maxAttempts) as _, i}
-			<div class={`h-12 w-6 rounded-sm ${i < attempts ? 'bg-red-500' : 'bg-slate-400'} `}></div>
+			<div class={`h-12 w-6 rounded-xs ${i < attempts ? 'bg-red-500' : 'bg-slate-400'} `}></div>
 		{/each}
 	</div>
 
@@ -188,7 +216,7 @@
 		{#each [undefined, 7, 8, 9] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50 focus:bg-slate-700"
 			>
 				{number}
 			</button>
@@ -197,7 +225,7 @@
 		{#each [undefined, 4, 5, 6] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50 focus:bg-slate-700"
 			>
 				{number}
 			</button>
@@ -205,7 +233,7 @@
 		{#each [0, 1, 2, 3] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50 focus:bg-slate-700"
 			>
 				{number}
 			</button>
@@ -214,14 +242,19 @@
 
 	{#if !gameOver}
 		<button
+			id="submit-button"
 			onclick={handleSubmit}
-			class="mt-4 rounded bg-slate-800 px-4 py-2 text-slate-50"
+			class="mt-4 rounded-sm bg-slate-800 px-4 py-2 text-slate-50 focus:ring-2 focus:ring-slate-50"
 			disabled={!currentAttempt.every((val) => val !== '')}
 		>
 			Submit
 		</button>
 	{:else}
-		<button onclick={handleRestart} class="mt-4 rounded bg-slate-800 px-4 py-2 text-slate-50">
+		<button
+			id="restart-button"
+			onclick={handleRestart}
+			class="mt-4 rounded-sm bg-slate-800 px-4 py-2 text-slate-50 ring-3 ring-slate-50"
+		>
 			Restart
 		</button>
 	{/if}
