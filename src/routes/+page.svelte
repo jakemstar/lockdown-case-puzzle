@@ -120,7 +120,7 @@
 </script>
 
 <!-- Debugging info: -->
-<!-- <div class="text-white">
+<!-- <div class="bg-slate-900 text-slate-50">
 	<p>debugging</p>
 	<p>priorAttempt: {priorAttempt}</p>
 	<p>currentAttempt: {currentAttempt}</p>
@@ -131,7 +131,7 @@
 </div> -->
 
 <!-- Legend -->
-<div class="fixed left-0 top-0 m-4 rounded p-2 text-white shadow-lg">
+<div class="fixed left-0 top-0 m-4 rounded-md bg-slate-800 p-2 text-slate-50 shadow-lg">
 	<div class="mb-2 flex items-center">
 		<div class="mr-2 h-4 w-4 rounded-full bg-sky-500"></div>
 		<span>Correct</span>
@@ -151,7 +151,7 @@
 	<div class="flex space-x-2">
 		{#each priorAttempt as digit, i}
 			<div
-				class="flex h-12 w-12 items-center justify-center border-2 border-gray-300 text-xl font-bold text-{priorAttemptColors[
+				class="flex h-16 w-16 items-center justify-center rounded-md border-2 border-slate-400 bg-slate-800 text-xl font-bold text-{priorAttemptColors[
 					i
 				]}"
 			>
@@ -171,7 +171,7 @@
 				pattern="[0-9]*"
 				maxlength="1"
 				value={digit}
-				class="h-12 w-12 border-2 border-slate-400 text-center text-xl font-bold"
+				class="focus:bg-600-200 h-16 w-16 rounded-md border-2 border-slate-400 bg-slate-800 text-center text-xl font-bold text-slate-50"
 			/>
 		{/each}
 	</div>
@@ -179,7 +179,7 @@
 	<!-- Attempts Bar -->
 	<div class="flex space-x-1">
 		{#each Array(maxAttempts) as _, i}
-			<div class={`h-12 w-6 ${i < attempts ? 'bg-red-500' : 'bg-gray-400'}`}></div>
+			<div class={`h-12 w-6 rounded-sm ${i < attempts ? 'bg-red-500' : 'bg-slate-400'} `}></div>
 		{/each}
 	</div>
 
@@ -188,7 +188,7 @@
 		{#each [undefined, 7, 8, 9] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xl font-bold"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
 			>
 				{number}
 			</button>
@@ -197,7 +197,7 @@
 		{#each [undefined, 4, 5, 6] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xl font-bold"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
 			>
 				{number}
 			</button>
@@ -205,7 +205,7 @@
 		{#each [0, 1, 2, 3] as number}
 			<button
 				onclick={() => handleNumberPad(number)}
-				class="flex h-16 w-16 items-center justify-center rounded bg-gray-200 text-xl font-bold"
+				class="flex h-20 w-20 items-center justify-center rounded-md bg-slate-800 text-xl font-bold text-slate-50"
 			>
 				{number}
 			</button>
@@ -215,13 +215,13 @@
 	{#if !gameOver}
 		<button
 			onclick={handleSubmit}
-			class="mt-4 rounded bg-slate-500 px-4 py-2 text-white"
+			class="mt-4 rounded bg-slate-800 px-4 py-2 text-slate-50"
 			disabled={!currentAttempt.every((val) => val !== '')}
 		>
 			Submit
 		</button>
 	{:else}
-		<button onclick={handleRestart} class="mt-4 rounded bg-slate-500 px-4 py-2 text-white">
+		<button onclick={handleRestart} class="mt-4 rounded bg-slate-800 px-4 py-2 text-slate-50">
 			Restart
 		</button>
 	{/if}
