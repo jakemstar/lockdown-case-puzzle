@@ -29,7 +29,6 @@
 	});
 
 	$effect(() => {
-		console.log('reee');
 		if (gameOver) {
 			const restartButton = document.getElementById('restart-button');
 			restartButton?.focus();
