@@ -14,6 +14,7 @@
 	let currentAttempt = $state(['', '', '', '']);
 	let attempts = $state(0);
 
+	let inputFilled = $derived(currentAttempt.every((val) => val !== ''));
 	let remainingAttempts = $derived(maxAttempts - attempts);
 	let gameWon = $derived(priorAttemptCorrect.every((status) => status === 'Y'));
 	let gameOver = $derived(remainingAttempts <= 0 || gameWon);
@@ -22,7 +23,7 @@
 	);
 
 	$effect(() => {
-		if (currentAttempt.every((val) => val !== '')) {
+		if (inputFilled) {
 			const submitButton = document.getElementById('submit-button');
 			submitButton?.focus();
 		}
